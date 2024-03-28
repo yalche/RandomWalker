@@ -1,0 +1,28 @@
+{
+  "board":
+{
+  "walkers": [
+    {"type": "RandomDirectionWalker2D", "values":  {"num": 5}},
+    {"type": "WeightedDiscreteWalker2D", "values": {"num": 4, "direction": "up","weight": 0.5}},
+    {"type": "IonWalker2D", "values": {"num": 4, "charge": 1}}
+  ],
+
+  "obstacles": [{"type": "circle", "radius": 0, "center": [8.6, 8], "charge":
+  0},
+    {"type": "rectangle", "width": 3, "height": 5, "start_point": [10, 10], "charge": 0}],
+
+  "magical_gates": [{"type": "circle", "radius":3, "center": [8, 8], "end_point": [0, 0]},
+    {"type": "rectangle", "width": 3, "height": 1, "start_point": [10, 10],
+      "end_point": [1,2]}]
+  },
+  "simulation":
+  {
+    "stop_param": 15,
+    "num_of_simulations": 12
+  },
+  "stats":
+  {
+    "type": "CrossStats",
+    "path": "graphs\\"
+  }
+}
