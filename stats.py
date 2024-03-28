@@ -63,6 +63,7 @@ class RadiusStats(Stats):
         """
         This method aggregates the data frame by the radius.
         """
+        self._df.to_csv(r"C:\Users\HP\Desktop\huji\year1\semesterA\CS\EX\new\RandomWalker\graphs\radius.csv")
         self._df = df.groupby(["walkers", "radius"], as_index=False).min()
 
         self._df["walkers"] = self._df["walkers"].apply(lambda a: a.split("_")[0])

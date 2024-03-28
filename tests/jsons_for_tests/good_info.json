@@ -15,8 +15,8 @@
   },
   "simulation":
   {
-    "stop_param": 15,
-    "num_of_simulations": 10
+    "stop_param": 10,
+    "num_of_simulations": 100
   },
   "stats":
   {

@@ -94,7 +94,6 @@ class RadiusGraph(GraphCreator):
             marker="o",
             dashes=False,
             linewidth=2,
-            ci=None
         )
 
         sns.move_legend(self._plot, "center left", bbox_to_anchor=(0.1, 0.5))
@@ -105,7 +104,6 @@ class RadiusGraph(GraphCreator):
         plt.xticks(fontsize=12)
         plt.yticks(fontsize=12)
         plt.tight_layout()
-        plt.show()
 
 
 class CrossGraph(GraphCreator):
