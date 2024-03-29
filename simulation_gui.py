@@ -38,7 +38,7 @@ class SimulationWindow(tk.Tk):
         # data for window configure
         self._colors: dict[str, str] = {}
         self.title("Simulation Window")
-        self.geometry("1000x700")
+        self.geometry("1100x700")
         self._canvas = tk.Canvas(self, width=800, height=600)
         self._canvas.grid(rowspan=50, columnspan=3)
         self._canvas_middle = [int(self._canvas['width']) / 2,

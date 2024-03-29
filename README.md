@@ -21,8 +21,8 @@ Currently, there are five types of random walkers:
 You can run the simulation by running the start.py file.
     
 ```bash
-    python start.py -d json_file # for stats
-    python start.py -g # for graphical representation
+    python main.py -d json_file # for stats
+    python main.py -g # for graphical representation
 ```
 
 ## Json_File

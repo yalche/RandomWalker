@@ -1,3 +1,4 @@
+import copy
 import sys
 import typing
 
@@ -50,17 +51,25 @@ class SimulationRunner(Runner):
         This method runs the simulation.
         """
         self.__operations = sim_globals.STATS_DICT[self.__stats_type]
-        self._loger = self.__operations[1](self.__stop_param)
-        simulator = self.__operations[0](self.__walkers, self.__board,
+        loger = self.__operations[1](self.__stop_param)
+        walkers = copy.deepcopy(self.__walkers)
+
+        simulator = self.__operations[0](walkers, self.__board,
                                          self.__stop_param)
-        simulator.run_simulation(self._loger.get_data)
-        self._df_list.append(self._loger.get_df())
+        simulator.run_simulation(loger.get_data)
+        self._df_list.append(loger.get_df())
 
     def run_simulations(self, simulations_num: int) -> None:
         for _ in tqdm.trange(simulations_num):
             self.__run_simulation()
+
+
         self._df = pd.concat(self._df_list, ignore_index=True)
-        self._df = self._loger.aggregate_df(self._df)
+
+        loger = self.__operations[1](self.__stop_param)
+        self._df = loger.mean(self._df)
+        self._df.to_csv("test.csv")
+
         graph = self.__operations[2](self.__path, self._df)
         graph.to_csv()
         graph.to_plot()

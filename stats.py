@@ -20,7 +20,8 @@ class Stats:
         """
         This method returns the aggregated data frame.
         """
-        return self._df
+        self._aggregate_df()
+        return self._df_aggregated
 
     def get_data(self, walkers: list[Walker], steps_num: int) -> None:
         """
@@ -34,9 +35,11 @@ class Stats:
     def _calculate_df(self) -> None:
         raise NotImplementedError("This method is not implemented")
 
-    def aggregate_df(self, df: pd.DataFrame) -> pd.DataFrame:
+    def _aggregate_df(self) -> None:
         raise NotImplementedError("This method is not implemented")
 
+    def mean(self, df: pd.DataFrame) -> pd.DataFrame:
+        raise NotImplementedError("This method is not implemented")
 
 class RadiusStats(Stats):
     """
@@ -47,6 +50,9 @@ class RadiusStats(Stats):
         super().__init__()
         self._df = pd.DataFrame({"walkers": [], "radius": [], "steps": []})
         self._param = args[0]
+
+    def mean(self, df):
+        return df.groupby(["walkers", "radius"], as_index=False).mean()
 
     def _calculate_df(self) -> None:
         """
@@ -59,16 +65,18 @@ class RadiusStats(Stats):
                                                  int(distance),
                                                  self._steps_num]
 
-    def aggregate_df(self, df) -> pd.DataFrame:
+    def _aggregate_df(self) -> None:
         """
         This method aggregates the data frame by the radius.
         """
         self._df.to_csv(r"C:\Users\HP\Desktop\huji\year1\semesterA\CS\EX\new\RandomWalker\graphs\radius.csv")
-        self._df = df.groupby(["walkers", "radius"], as_index=False).min()
+        self._df = self._df.groupby(["walkers", "radius"],
+                                    as_index=False).min()
 
         self._df["walkers"] = self._df["walkers"].apply(lambda a: a.split("_")[0])
         self._df = self._df[self._df["radius"] <= self._param]
-        return self._df.groupby(["walkers", "radius"], as_index=False).mean()
+        self._df_aggregated = self._df.groupby(["walkers", "radius"],
+                                            as_index=False).mean()
 
 
 class DistanceAxisStats(Stats):
@@ -81,14 +89,17 @@ class DistanceAxisStats(Stats):
                                  "distance_to_axis_x": [],
                                  "distance_to_axis_y": []})
 
-    def aggregate_df(self, df) -> pd.DataFrame:
+    def mean(self, df):
+        return df.groupby(["walkers", "steps"], as_index=False).mean()
+
+    def _aggregate_df(self) -> None:
         """
         This method aggregates the data frame by the number of steps.
         """
-        self._df = df
         self._df["walkers"] = self._df["walkers"].apply(
             lambda a: a.split("_")[0])
-        return self._df.groupby(["walkers", "steps"], as_index=False).mean()
+        self._df_aggregated = self._df.groupby(["walkers", "steps"],
+                                              as_index=False).mean()
 
     def _calculate_df(self) -> None:
         """
@@ -109,14 +120,17 @@ class DistanceStats(Stats):
         super().__init__()
         self._df = pd.DataFrame({"walkers": [], "steps": [], "distance": []})
 
-    def aggregate_df(self, df) -> pd.DataFrame:
+    def mean(self, df):
+        return df.groupby(["walkers", "steps"], as_index=False).mean()
+
+    def _aggregate_df(self) -> None:
         """
         This method aggregates the data frame by the number of steps.
         """
-        self._df = df
         self._df["walkers"] = self._df["walkers"].apply(
             lambda a: a.split("_")[0])
-        return self._df.groupby(["walkers", "steps"], as_index=False).mean()
+        self._df_aggregated = self._df.groupby(["walkers", "steps"],
+                                              as_index=False).mean()
 
     def _calculate_df(self) -> None:
         """
@@ -138,21 +152,25 @@ class CrossStats(Stats):
             {"walkers": [], "steps": [], "cross_num": []})
         self._df = pd.DataFrame({"walkers": [], "steps": [], "cross_num": []})
 
-    def aggregate_df(self, df) -> pd.DataFrame:
+    def mean(self, df):
+        return df.groupby(["walkers", "steps"], as_index=False).mean()
+
+    def _aggregate_df(self) -> None:
         """
         This method aggregates the data frame by the number of steps.
         """
-        self._df = df
         self._df["walkers"] = self._df["walkers"].apply(
             lambda a: a.split("_")[0])
-        return self._df.groupby(["walkers", "steps"], as_index=False).mean()
+        self._df_aggregated = self._df.groupby(["walkers", "steps"],
+                                              as_index=False).mean()
 
     def get_df(self) -> pd.DataFrame:
         """
         This method returns the aggregated data frame.
         """
         self.__arrange_df()
-        return self._df
+        self._aggregate_df()
+        return self._df_aggregated
 
     def __arrange_df(self) -> None:
         """

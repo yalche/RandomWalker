@@ -236,8 +236,8 @@ class WalkerWindow(AddWindow):
         weight = self._amount_weight.get()
         if check_float_positive(weight) and 0 <= float(weight) <= 1 and num.isdigit():
             self._walkers.append({"type": self._choose_object_to_add.get(),
-                                  "values": {"num": int(num), "direction": [
-                    self._directions_q.get(), float(weight)]}})
+                                  "values": {"num": int(num), "direction":
+                    self._directions_q.get(), "weight": float(weight)}})
             self.destroy()
         else:
             self._call_error()

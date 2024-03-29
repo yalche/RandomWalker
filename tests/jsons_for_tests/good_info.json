@@ -3,8 +3,7 @@
 {
   "walkers": [
     {"type": "RandomDirectionWalker2D", "values":  {"num": 5}},
-    {"type": "WeightedDiscreteWalker2D", "values": {"num": 4, "direction": "up","weight": 0.5}},
-  {"type": "IonWalker2D", "values": {"num": 4, "charge": 1}}],
+    {"type": "WeightedDiscreteWalker2D", "values": {"num": 4, "direction": "up","weight": 0.5}}],
 
   "obstacles": [{"type": "circle", "radius": 5, "center": [8, 8], "charge": 1},
     {"type": "rectangle", "width": 3, "height": 5, "start_point": [10, 10], "charge": 1}],
@@ -15,12 +14,12 @@
   },
   "simulation":
   {
-    "stop_param": 10,
-    "num_of_simulations": 100
+    "stop_param": 100,
+    "num_of_simulations": 15
   },
   "stats":
   {
-    "type": "RadiusStats",
+    "type": "DistanceStats",
     "path": "graphs\\"
   }
 }

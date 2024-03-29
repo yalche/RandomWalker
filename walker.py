@@ -240,7 +240,6 @@ class WeightedDiscreteWalker2D(DiscreteWalker2D):
 
         self._step: float = 1
         self._next_step = np.zeros(2)
-
         if args[0]["direction"] in self.__angles.keys():
             self.__direction = args[0]["direction"]
         else:
@@ -303,11 +302,15 @@ class IonWalker2D(ContinuousWalker2D):
         object.
         """
         if obj.get_charge() != 0:
-            power_vector = self._location - obj.get_location()
-            if np.dot(power_vector, power_vector) > 1:
-                return (power_vector *
+            direction = self._location - obj.get_location()
+            if np.linalg.norm(direction) != 0:
+                norm_direction = direction / np.linalg.norm(direction)
+            else:
+                norm_direction = direction
+            if np.dot(direction, direction) > 1:
+                return (norm_direction *
                               ((obj.get_charge() * self._charge) /
-                               (np.dot(power_vector, power_vector))))
+                               (np.dot(direction, direction))))
         return np.zeros(2)
 
     def _get_direction(self, walkers: list[Walker], obstacles: list[obstacles.Obstacle]) -> np.ndarray:
